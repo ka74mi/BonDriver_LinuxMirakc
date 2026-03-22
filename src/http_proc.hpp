@@ -89,15 +89,15 @@ MirakcConnectHttp::MirakcConnectHttp( char *host, short port )
     hints.ai_family   = AF_INET;
 
     char port_str[8];
-    snprintf(port_str, sizeof(port_str), "%d", port);
+    snprintf(port_str, sizeof(port_str), "%u", (unsigned short)port);
 
     int ret = getaddrinfo(host, port_str, &hints, &res);
-    ERROR_OUTPUT("getaddrinfo(%s, %s) = %d", host, port_str, ret);  // ← 追加
+    ERROR_OUTPUT("getaddrinfo(%s, %s) = %d", host, port_str, ret);
     if (ret != 0 || res == nullptr) {
         memset(&s_addr, 0, sizeof(s_addr));
     } else {
         s_addr = *reinterpret_cast<struct sockaddr_in *>(res->ai_addr);
-        ERROR_OUTPUT("resolved: %s", inet_ntoa(s_addr.sin_addr));  // ← 追加
+        ERROR_OUTPUT("resolved: %s", inet_ntoa(s_addr.sin_addr));
         freeaddrinfo(res);
     }
 
