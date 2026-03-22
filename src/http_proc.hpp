@@ -92,11 +92,12 @@ MirakcConnectHttp::MirakcConnectHttp( char *host, short port )
     snprintf(port_str, sizeof(port_str), "%d", port);
 
     int ret = getaddrinfo(host, port_str, &hints, &res);
+    ERROR_OUTPUT("getaddrinfo(%s, %s) = %d", host, port_str, ret);  // ← 追加
     if (ret != 0 || res == nullptr) {
-        // エラー処理：s_addrをゼロ埋めしておく
         memset(&s_addr, 0, sizeof(s_addr));
     } else {
         s_addr = *reinterpret_cast<struct sockaddr_in *>(res->ai_addr);
+        ERROR_OUTPUT("resolved: %s", inet_ntoa(s_addr.sin_addr));  // ← 追加
         freeaddrinfo(res);
     }
 
