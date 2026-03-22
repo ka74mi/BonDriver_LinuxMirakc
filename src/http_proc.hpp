@@ -82,11 +82,23 @@ public:
 
 MirakcConnectHttp::MirakcConnectHttp( char *host, short port )
 {
-#if 1
-	s_addr.sin_addr.s_addr = inet_addr( host );
-	s_addr.sin_port        = htons( port );
-	s_addr.sin_family      = AF_INET;
-#endif
+    struct addrinfo hints = {};
+    struct addrinfo *res = nullptr;
+
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_family   = AF_INET;
+
+    char port_str[8];
+    snprintf(port_str, sizeof(port_str), "%d", port);
+
+    int ret = getaddrinfo(host, port_str, &hints, &res);
+    if (ret != 0 || res == nullptr) {
+        // エラー処理：s_addrをゼロ埋めしておく
+        memset(&s_addr, 0, sizeof(s_addr));
+    } else {
+        s_addr = *reinterpret_cast<struct sockaddr_in *>(res->ai_addr);
+        freeaddrinfo(res);
+    }
 
 #if 0
 	memset( &hints, 0, sizeof(hints) );
