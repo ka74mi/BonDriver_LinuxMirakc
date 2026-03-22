@@ -1,3 +1,15 @@
+# BonDriver_LinuxMirakc (fork)
+[matching/BonDriver_LinuxMirakc](https://github.com/matching/BonDriver_LinuxMirakc) のフォークです。
+
+## 変更点
+- `SERVER_HOST` にIPアドレスだけでなくホスト名が指定できるようになりました。DockerやPodmanでコンテナ名を指定する場合などに利用できます。
+
+## デバッグ出力
+コンパイル時に `-DDEBUG` を付けると `getaddrinfo` の名前解決結果などのデバッグ情報が出力されます。
+> $ make CXXFLAGS="-DDEBUG"
+
+---
+
 # BonDriver_LinuxMirakc
 Linux の EDCB で mirakc に接続するための BonDriver です。Mirakurunでは接続テストしていないので動くかわかりません。
 
