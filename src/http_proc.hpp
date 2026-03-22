@@ -92,14 +92,14 @@ MirakcConnectHttp::MirakcConnectHttp( char *host, short port )
     snprintf(port_str, sizeof(port_str), "%u", (unsigned short)port);
 
     int ret = getaddrinfo(host, port_str, &hints, &res);
-    ERROR_OUTPUT("getaddrinfo(%s, %s) = %d", host, port_str, ret);
+    DEBUG_OUTPUT("getaddrinfo(%s, %s) = %d", host, port_str, ret);
     if (ret != 0 || res == nullptr) {
         memset(&s_addr, 0, sizeof(s_addr));
-    } else {
-        s_addr = *reinterpret_cast<struct sockaddr_in *>(res->ai_addr);
-        ERROR_OUTPUT("resolved: %s", inet_ntoa(s_addr.sin_addr));
-        freeaddrinfo(res);
-    }
+} else {
+    s_addr = *reinterpret_cast<struct sockaddr_in *>(res->ai_addr);
+    DEBUG_OUTPUT("resolved: %s", inet_ntoa(s_addr.sin_addr));
+    freeaddrinfo(res);
+}
 
 #if 0
 	memset( &hints, 0, sizeof(hints) );
